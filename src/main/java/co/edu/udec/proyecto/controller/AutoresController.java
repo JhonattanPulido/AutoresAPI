@@ -37,7 +37,7 @@ public class AutoresController {
         @PathVariable String orcid,
         @PathVariable Boolean all
     ) {
-        return new ResponseEntity<String>(orcid + "Jhonattan", HttpStatus.OK);
+        return new ResponseEntity<String>(orcid + " Jhonattan Pulido", HttpStatus.OK);
     }
 
 }
