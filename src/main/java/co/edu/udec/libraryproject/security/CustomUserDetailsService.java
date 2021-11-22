@@ -4,14 +4,14 @@ package co.edu.udec.libraryproject.security;
 // Librerías
 import org.springframework.stereotype.Service;
 import co.edu.udec.libraryproject.entity.Usuario;
+import co.edu.udec.libraryproject.repository.IDUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
-import co.edu.udec.libraryproject.repository.interfaz.IDUsuario;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
- * 
+ * Custom user details service
  * @author Jhonattan Pulido
  * @since 22/11/2021
  * @version 1.0.0
@@ -25,7 +25,7 @@ public class CustomUserDetailsService implements UserDetailsService {
      * Métodos de la capa de datos de usuario
      */
     @Autowired
-    private IDUsuario datosUsuario;
+    private IDUsuario datoUsuario;
 
     /**
      * Constructor
@@ -33,19 +33,20 @@ public class CustomUserDetailsService implements UserDetailsService {
     public CustomUserDetailsService() {
 
     }
-
+    
     // Métodos
 
     /**
      * Obtener la información del usuario y permisos asociados
-     * @return UserDetails Datos del usuario
+     * @param email E-mail del usuario
+     * @return Datos del usuario
      * @throws UsernameNotFoundException No se encontró el usuario asociado al e-mail
      */
     @Override
-    public UserDetails loadUserByUsername(String email) throws   UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         
         // Verificando la existencia del usuario
-        Usuario usuario = datosUsuario.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("No se encontró el usuario con el E-mail: " + email));        
+        Usuario usuario = datoUsuario.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("No se encontró el usuario con el e-mail: " + email));
 
         return new CustomUserDetails(usuario);
     }

@@ -4,14 +4,11 @@ package co.edu.udec.libraryproject.security;
 // Librerías
 import java.util.Collection;
 import java.util.Collections;
-
 import org.springframework.stereotype.Component;
-
 import co.edu.udec.libraryproject.entity.Usuario;
-
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 /**
  * Custom user details
@@ -21,7 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 @Component
 public class CustomUserDetails implements UserDetails {
-
+    
     // Variables
 
     /**
@@ -90,5 +87,5 @@ public class CustomUserDetails implements UserDetails {
     public boolean isEnabled() {        
         return true;
     }
-    
+
 }

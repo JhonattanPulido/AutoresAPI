@@ -1,12 +1,10 @@
 // Paquete
-package co.edu.udec.libraryproject.repository.interfaz;
+package co.edu.udec.libraryproject.repository;
 
 // Librerías
+import java.util.Optional;
 import org.springframework.stereotype.Repository;
 import co.edu.udec.libraryproject.entity.Usuario;
-
-import java.util.Optional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -21,7 +19,7 @@ public interface IDUsuario extends JpaRepository<Usuario, Short> {
     // Métodos
 
     /**
-     * Leer datos de usuario filtrados por E-mail
+     * Leer datos de usuario filtrado por E-mail
      * @param email E-mail del usuario
      * @return Datos del usuario
      */
