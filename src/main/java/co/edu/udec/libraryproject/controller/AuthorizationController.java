@@ -7,6 +7,7 @@ import co.edu.udec.libraryproject.dto.LoginDTO;
 import org.springframework.http.ResponseEntity;
 import co.edu.udec.libraryproject.service.SAuthorization;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,6 +46,7 @@ public class AuthorizationController {
      * @param datos Datos de inicio de sesión
      * @return Token de seguridad
      */
+    @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<String> iniciarSesion(@Validated @RequestBody LoginDTO datos) {
         return new ResponseEntity<String>(serviciosAuthorization.iniciarSesion(datos), HttpStatus.OK);
     }
