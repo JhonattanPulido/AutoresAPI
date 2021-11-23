@@ -1,2 +1,16 @@
+/home/jhonattan/Documents/AutoresAPI/src/main/java/co/edu/udec/libraryproject/security/CustomUserDetailsService.java
+/home/jhonattan/Documents/AutoresAPI/src/main/java/co/edu/udec/libraryproject/entity/Rol.java
 /home/jhonattan/Documents/AutoresAPI/src/main/java/co/edu/udec/libraryproject/ServletInitializer.java
+/home/jhonattan/Documents/AutoresAPI/src/main/java/co/edu/udec/libraryproject/security/CustomUserDetails.java
+/home/jhonattan/Documents/AutoresAPI/src/main/java/co/edu/udec/libraryproject/security/jwt/JWTEntryPoint.java
+/home/jhonattan/Documents/AutoresAPI/src/main/java/co/edu/udec/libraryproject/dto/LoginDTO.java
+/home/jhonattan/Documents/AutoresAPI/src/main/java/co/edu/udec/libraryproject/exception/UnauthorizedException.java
 /home/jhonattan/Documents/AutoresAPI/src/main/java/co/edu/udec/libraryproject/LibraryProjectApplication.java
+/home/jhonattan/Documents/AutoresAPI/src/main/java/co/edu/udec/libraryproject/controller/AuthorizationController.java
+/home/jhonattan/Documents/AutoresAPI/src/main/java/co/edu/udec/libraryproject/entity/Usuario.java
+/home/jhonattan/Documents/AutoresAPI/src/main/java/co/edu/udec/libraryproject/repository/IDUsuario.java
+/home/jhonattan/Documents/AutoresAPI/src/main/java/co/edu/udec/libraryproject/dto/ExceptionDTO.java
+/home/jhonattan/Documents/AutoresAPI/src/main/java/co/edu/udec/libraryproject/security/jwt/JWTProvider.java
+/home/jhonattan/Documents/AutoresAPI/src/main/java/co/edu/udec/libraryproject/filter/FException.java
+/home/jhonattan/Documents/AutoresAPI/src/main/java/co/edu/udec/libraryproject/security/MainSecurity.java
+/home/jhonattan/Documents/AutoresAPI/src/main/java/co/edu/udec/libraryproject/filter/FJWT.java
