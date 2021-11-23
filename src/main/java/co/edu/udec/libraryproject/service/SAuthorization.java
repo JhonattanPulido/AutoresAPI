@@ -2,6 +2,7 @@
 package co.edu.udec.libraryproject.service;
 
 // Librerías
+import org.springframework.stereotype.Service;
 import co.edu.udec.libraryproject.dto.LoginDTO;
 import org.springframework.security.core.Authentication;
 import co.edu.udec.libraryproject.security.jwt.JWTProvider;
@@ -17,6 +18,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
  * @since 23/11/2021
  * @version 1.0.0
  */
+@Service
 public class SAuthorization implements ISAuthorization {
     
     // Variables    
