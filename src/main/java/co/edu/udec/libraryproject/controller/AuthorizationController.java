@@ -25,7 +25,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
  */
 @Validated
 @RestController
-@RequestMapping(value = "/authorization")
+@RequestMapping("/authorization")
 public class AuthorizationController {
     
     // Variables    
@@ -56,7 +56,7 @@ public class AuthorizationController {
      * @param datos Datos de inicio de sesión
      * @return Token de seguridad
      */
-    @PostMapping(consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "/login", consumes = "application/json", produces = "application/json")
     public ResponseEntity<String> iniciarSesion(@Validated @RequestBody LoginDTO datos) {
 
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(datos.getEmail(), datos.getClave()));

@@ -84,22 +84,17 @@ public class MainSecurity extends WebSecurityConfigurerAdapter {
      * Configuración de la seguridad del API
      */
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(HttpSecurity http) throws Exception {        
 
         // Configuración
-        http
-            .cors()
-            .and()
-            .csrf()
-            .disable()
-            .authorizeRequests()
-            .antMatchers("/autores/**").authenticated()
-            .and()
-            .exceptionHandling().authenticationEntryPoint(jwtEntryPoint)
-            .and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-        // Filtro de JWT
+        http.cors().and().csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/authorization/login").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .exceptionHandling().authenticationEntryPoint(jwtEntryPoint)
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
     }     

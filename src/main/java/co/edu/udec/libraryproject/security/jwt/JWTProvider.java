@@ -10,9 +10,9 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import org.springframework.stereotype.Component;
-import co.edu.udec.libraryproject.entity.Usuario;
 import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Value;
+import co.edu.udec.libraryproject.security.CustomUserDetails;
 
 /**
  * Java web tokens provider
@@ -53,13 +53,13 @@ public class JWTProvider {
     public String crearToken(Authentication authentication) {
 
         // Obteniendo la información del usuario
-        Usuario usuario = (Usuario) authentication.getPrincipal();        
+        CustomUserDetails usuario = (CustomUserDetails) authentication.getPrincipal();        
 
         // Retornando el token de seguridad
         return Jwts.builder()
                     .setIssuedAt(new Date())
-                    .claim("email", usuario.getEmail())
-                    .claim("rol", usuario.getRol().getNombre())
+                    .claim("email", usuario.getUsername())
+                    .claim("rol", usuario.getRol())
                     .setExpiration(new Date(new Date().getTime() + expirationTime))
                     .signWith(SignatureAlgorithm.HS256, secretKey)
                     .compact();

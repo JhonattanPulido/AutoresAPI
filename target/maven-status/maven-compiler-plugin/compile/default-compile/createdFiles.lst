@@ -1,2 +1,16 @@
+co/edu/udec/libraryproject/security/jwt/JWTEntryPoint.class
+co/edu/udec/libraryproject/entity/Usuario.class
+co/edu/udec/libraryproject/exception/UnauthorizedException.class
+co/edu/udec/libraryproject/dto/LoginDTO.class
 co/edu/udec/libraryproject/LibraryProjectApplication.class
 co/edu/udec/libraryproject/ServletInitializer.class
+co/edu/udec/libraryproject/security/MainSecurity.class
+co/edu/udec/libraryproject/controller/AuthorizationController.class
+co/edu/udec/libraryproject/entity/Rol.class
+co/edu/udec/libraryproject/dto/ExceptionDTO.class
+co/edu/udec/libraryproject/repository/IDUsuario.class
+co/edu/udec/libraryproject/filter/FJWT.class
+co/edu/udec/libraryproject/security/jwt/JWTProvider.class
+co/edu/udec/libraryproject/security/CustomUserDetails.class
+co/edu/udec/libraryproject/filter/FException.class
+co/edu/udec/libraryproject/security/CustomUserDetailsService.class

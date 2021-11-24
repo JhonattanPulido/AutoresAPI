@@ -10,12 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import co.edu.udec.libraryproject.security.jwt.JWTProvider;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import co.edu.udec.libraryproject.exception.UnauthorizedException;
 import co.edu.udec.libraryproject.security.CustomUserDetailsService;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 /**
  * Filtro de java web tokens
@@ -53,17 +52,20 @@ public class FJWT extends OncePerRequestFilter {
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
+            throws ServletException, IOException {        
         
         String token = getToken(request); // Obteniendo el token de la petición
 
-        jwtProvider.validarToken(token); // Validando el token recibido
+        if (token != null) {
+            
+            jwtProvider.validarToken(token); // Validando el token recibido
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(jwtProvider.getEmailFromToken(token)); // Obteniendo la información del usuario de la BD
+            UserDetails userDetails = userDetailsService.loadUserByUsername(jwtProvider.getEmailFromToken(token)); // Obteniendo la información del usuario de la BD
 
-        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
-        SecurityContextHolder.getContext().setAuthentication(auth);
+            SecurityContextHolder.getContext().setAuthentication(auth);
+        }        
 
         filterChain.doFilter(request, response);
         
@@ -81,10 +83,10 @@ public class FJWT extends OncePerRequestFilter {
         String header = request.getHeader("Authorization");
 
         // Verificando si el token existe
-        if (header == null)
-            throw new UnauthorizedException("No se encontró el token");
+        if (header != null && header.startsWith("Bearer"))
+            return header.replace("Bearer", ""); // Se retorna el token
 
-        return header.replace("Bearer", ""); // Se retorna el token
+        return null;
 
     }
     

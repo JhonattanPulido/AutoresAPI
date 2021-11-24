@@ -48,7 +48,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         // Verificando la existencia del usuario
         Usuario usuario = datoUsuario.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("No se encontró el usuario con el e-mail: " + email));
 
-        return new CustomUserDetails(usuario);
+        return new CustomUserDetails(usuario.getEmail(), usuario.getClave(), usuario.getRol());
     }
     
 }

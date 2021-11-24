@@ -6,8 +6,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.JoinColumn;
 import javax.persistence.GenerationType;
 import javax.persistence.GeneratedValue;
 import javax.validation.constraints.Min;
@@ -52,11 +50,10 @@ public class Usuario {
 
     /**
      * Rol del usuario
-     */    
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    @Min(value = 1, message = "El ID del rol del usuario debe se mayor a cero (0)")
-    private Rol rol;
+     */        
+    @Column(name = "role")
+    @NotNull(message = "El rol del usuario es requerido")    
+    private String rol;
 
     /**
      * Constructor
@@ -91,11 +88,11 @@ public class Usuario {
         this.clave = clave;
     }
 
-    public Rol getRol() {
+    public String getRol() {
         return rol;
     }
 
-    public void setRol(Rol rol) {
+    public void setRol(String rol) {
         this.rol = rol;
     }
 

@@ -2,6 +2,8 @@
 package co.edu.udec.libraryproject.security;
 
 // Librerías
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import org.springframework.stereotype.Component;
@@ -19,12 +21,22 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 @Component
 public class CustomUserDetails implements UserDetails {
     
-    // Variables
+    // Variables    
 
     /**
-     * Objeto de usuario
+     * E-mail del usuario
      */
-    private Usuario usuario;
+    private String email;
+
+    /**
+     * Clave del usuario
+     */
+    private String clave;    
+
+    /**
+     * Rol del usuario
+     */
+    private String rol;
 
     /**
      * Constructor
@@ -34,22 +46,34 @@ public class CustomUserDetails implements UserDetails {
     }
 
     /**
-     * Constructor
-     * @param usuario Datos del usuario
+     * Constructor con parámetros
+     * @param nombre Nombre del usuario
+     * @param email E-mail del usuario
+     * @param clave Clave del usuario
+     * @param rol Rol del usuario
      */
-    public CustomUserDetails(Usuario usuario) {
-        super();
-        this.usuario = usuario;
+    public CustomUserDetails(String email, String clave, String rol) {        
+        this.email = email;
+        this.clave = clave;
+        this.rol = rol;
     }
 
-    // Métodos
+    // Métodos    
+
+    public static CustomUserDetails build(Usuario usuario) {
+
+        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();     
+        authorities.add(new SimpleGrantedAuthority(usuario.getRol()));
+
+        return new CustomUserDetails();
+    }
 
     /**
      * Retornar el rol del usuario
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {        
-        return Collections.singleton(new SimpleGrantedAuthority(usuario.getRol().getNombre()));
+        return Collections.singleton(new SimpleGrantedAuthority(rol));
     }
 
     /**
@@ -57,7 +81,7 @@ public class CustomUserDetails implements UserDetails {
      */
     @Override
     public String getPassword() {        
-        return usuario.getClave();
+        return clave;
     }
 
     /**
@@ -65,7 +89,7 @@ public class CustomUserDetails implements UserDetails {
      */
     @Override
     public String getUsername() {        
-        return usuario.getEmail();
+        return email;
     }
 
     @Override
@@ -87,5 +111,13 @@ public class CustomUserDetails implements UserDetails {
     public boolean isEnabled() {        
         return true;
     }
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }    
 
 }
