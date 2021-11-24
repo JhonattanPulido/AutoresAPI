@@ -1,5 +1,4 @@
 /home/jhonattan/Documents/AutoresAPI/src/main/java/co/edu/udec/libraryproject/security/CustomUserDetailsService.java
-/home/jhonattan/Documents/AutoresAPI/src/main/java/co/edu/udec/libraryproject/entity/Rol.java
 /home/jhonattan/Documents/AutoresAPI/src/main/java/co/edu/udec/libraryproject/ServletInitializer.java
 /home/jhonattan/Documents/AutoresAPI/src/main/java/co/edu/udec/libraryproject/security/CustomUserDetails.java
 /home/jhonattan/Documents/AutoresAPI/src/main/java/co/edu/udec/libraryproject/security/jwt/JWTEntryPoint.java

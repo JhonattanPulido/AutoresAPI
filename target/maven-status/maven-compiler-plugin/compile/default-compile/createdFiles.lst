@@ -6,7 +6,6 @@ co/edu/udec/libraryproject/LibraryProjectApplication.class
 co/edu/udec/libraryproject/ServletInitializer.class
 co/edu/udec/libraryproject/security/MainSecurity.class
 co/edu/udec/libraryproject/controller/AuthorizationController.class
-co/edu/udec/libraryproject/entity/Rol.class
 co/edu/udec/libraryproject/dto/ExceptionDTO.class
 co/edu/udec/libraryproject/repository/IDUsuario.class
 co/edu/udec/libraryproject/filter/FJWT.class

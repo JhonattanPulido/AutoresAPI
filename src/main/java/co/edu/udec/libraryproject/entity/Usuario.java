@@ -9,8 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.GenerationType;
 import javax.persistence.GeneratedValue;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 /**
  * Entidad usuario
@@ -56,6 +58,15 @@ public class Usuario {
     private String rol;
 
     /**
+     * Nombre del usuario
+     */
+    @Column(name = "name")
+    @NotNull(message = "El nombre del usuario es requerido")
+    @Pattern(regexp = "[a-zA-ZñÑ ]*", message = "El nombre del usuario únicamente debe contener letras")
+    @Size(min = 4, max = 48, message = "El nombre del usuario debe contener mínimo 4 y máximo 48 letras")
+    private String nombre;
+
+    /**
      * Constructor
      */
     public Usuario() {
@@ -94,6 +105,14 @@ public class Usuario {
 
     public void setRol(String rol) {
         this.rol = rol;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
 }

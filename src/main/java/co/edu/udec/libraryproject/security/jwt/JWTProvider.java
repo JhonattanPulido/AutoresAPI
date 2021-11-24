@@ -58,9 +58,10 @@ public class JWTProvider {
         // Retornando el token de seguridad
         return Jwts.builder()
                     .setIssuedAt(new Date())
-                    .claim("email", usuario.getUsername())
-                    .claim("rol", usuario.getRol())
-                    .setExpiration(new Date(new Date().getTime() + expirationTime))
+                    .setSubject(usuario.getUsername())
+                    .claim("email", usuario.getUsuario().getEmail())
+                    .claim("rol", usuario.getUsuario().getRol())
+                    .setExpiration(new Date(new Date().getTime() + expirationTime * 100)) // Vence en una hora
                     .signWith(SignatureAlgorithm.HS256, secretKey)
                     .compact();
 

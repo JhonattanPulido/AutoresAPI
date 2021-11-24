@@ -24,38 +24,23 @@ public class CustomUserDetails implements UserDetails {
     // Variables    
 
     /**
-     * E-mail del usuario
+     * Datos del usuario
      */
-    private String email;
-
-    /**
-     * Clave del usuario
-     */
-    private String clave;    
-
-    /**
-     * Rol del usuario
-     */
-    private String rol;
+    private Usuario usuario;
 
     /**
      * Constructor
      */
     public CustomUserDetails() {
 
-    }
+    }    
 
     /**
-     * Constructor con parámetros
-     * @param nombre Nombre del usuario
-     * @param email E-mail del usuario
-     * @param clave Clave del usuario
-     * @param rol Rol del usuario
+     * Constructor
+     * @param usuario Datos del usuario
      */
-    public CustomUserDetails(String email, String clave, String rol) {        
-        this.email = email;
-        this.clave = clave;
-        this.rol = rol;
+    public CustomUserDetails(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     // Métodos    
@@ -73,7 +58,7 @@ public class CustomUserDetails implements UserDetails {
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {        
-        return Collections.singleton(new SimpleGrantedAuthority(rol));
+        return Collections.singleton(new SimpleGrantedAuthority(usuario.getRol()));
     }
 
     /**
@@ -81,16 +66,24 @@ public class CustomUserDetails implements UserDetails {
      */
     @Override
     public String getPassword() {        
-        return clave;
+        return usuario.getClave();
     }
 
     /**
-     * Obtener el e-mail del usuario
+     * Obtener el nombre del usuario
      */
     @Override
     public String getUsername() {        
-        return email;
+        return usuario.getNombre();
     }
+
+    /**
+     * Obtener los datos del usuario
+     * @return Datos del usuario
+     */
+    public Usuario getUsuario() {
+        return usuario;
+    }    
 
     @Override
     public boolean isAccountNonExpired() {        
@@ -110,14 +103,6 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {        
         return true;
-    }
-
-    public String getRol() {
-        return rol;
-    }
-
-    public void setRol(String rol) {
-        this.rol = rol;
-    }    
+    }      
 
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import co.edu.udec.libraryproject.exception.UnauthorizedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 /**
@@ -29,6 +30,17 @@ public class FException extends ResponseEntityExceptionHandler {
     // Métodos
 
     /**
+     * Filtro de BADCREDENTIALS EXCEPTION
+     * @param ex Datos de la excepción
+     * @param request Datos de la petición
+     * @return 400 - BAD REQUEST
+     */
+    @ExceptionHandler(BadCredentialsException.class)
+    public final ResponseEntity<ExceptionDTO> onBadCredentialsException(Exception ex, WebRequest request) {
+        return responseError(HttpStatus.BAD_REQUEST, "Credenciales incorrectas", request);
+    }
+
+    /**
      * Filtro de UNAUTHORIZED EXCEPTION
      * @param ex Datos de la excepción
      * @param request Datos de la petición
@@ -36,7 +48,7 @@ public class FException extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(UnauthorizedException.class)
     public final ResponseEntity<ExceptionDTO> onUnauthorizedException(Exception ex, WebRequest request) {
-        return responseError(HttpStatus.UNAUTHORIZED, ex, request);
+        return responseError(HttpStatus.UNAUTHORIZED, ex.getMessage(), request);
     }
 
     /**
@@ -47,7 +59,7 @@ public class FException extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(MalformedJwtException.class)
     public final ResponseEntity<ExceptionDTO> onMalformedJwtException(Exception ex, WebRequest request) {
-        return responseError(HttpStatus.UNAUTHORIZED, ex, request);
+        return responseError(HttpStatus.UNAUTHORIZED, ex.getMessage(), request);
     }
 
     /**
@@ -58,7 +70,7 @@ public class FException extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(UnsupportedJwtException.class)
     public final ResponseEntity<ExceptionDTO> onUnsupportedJwtException(Exception ex, WebRequest request) {
-        return responseError(HttpStatus.UNAUTHORIZED, ex, request);
+        return responseError(HttpStatus.UNAUTHORIZED, ex.getMessage(), request);
     }
 
     /**
@@ -69,7 +81,7 @@ public class FException extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(IllegalArgumentException.class)
     public final ResponseEntity<ExceptionDTO> onIllegalArgumentException(Exception ex, WebRequest request) {
-        return responseError(HttpStatus.UNAUTHORIZED, ex, request);
+        return responseError(HttpStatus.UNAUTHORIZED, ex.getMessage(), request);
     }
 
     /**
@@ -80,7 +92,7 @@ public class FException extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(SignatureException.class)
     public final ResponseEntity<ExceptionDTO> onSignatureException(Exception ex, WebRequest request) {
-        return responseError(HttpStatus.UNAUTHORIZED, ex, request);
+        return responseError(HttpStatus.UNAUTHORIZED, ex.getMessage(), request);
     }
 
     /**
@@ -91,7 +103,7 @@ public class FException extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(ExpiredJwtException.class)
     public final ResponseEntity<ExceptionDTO> onExpiredJwtException(Exception ex, WebRequest request) {
-        return responseError(HttpStatus.UNAUTHORIZED, ex, request);
+        return responseError(HttpStatus.UNAUTHORIZED, ex.getMessage(), request);
     }
 
     /**
@@ -102,23 +114,23 @@ public class FException extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<ExceptionDTO> onException(Exception ex, WebRequest request) {
-        return responseError(HttpStatus.INTERNAL_SERVER_ERROR, ex, request);
+        return responseError(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), request);
     }    
 
     /**
      * Retornar objeto de error
      * @param httpStatus Código de error
-     * @param ex Excepción generada
+     * @param mensaje Mensaje de la excepción
      * @param request Datos de la petición
      * @return Objeto de error cargado
      */
-    private ResponseEntity<ExceptionDTO> responseError(HttpStatus httpStatus, Exception ex, WebRequest request) {
+    private ResponseEntity<ExceptionDTO> responseError(HttpStatus httpStatus, String mensaje, WebRequest request) {
 
         // Generando objeto de error
         ExceptionDTO exceptionDTO = new ExceptionDTO(
             httpStatus.value(),
             httpStatus.toString(),
-            ex.getMessage(),
+            mensaje,
             request.getDescription(false)
         );
 
