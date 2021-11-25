@@ -5,7 +5,6 @@ package co.edu.udec.libraryproject.security;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import org.springframework.stereotype.Component;
 import co.edu.udec.libraryproject.entity.Usuario;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,6 +28,11 @@ public class CustomUserDetails implements UserDetails {
     private Usuario usuario;
 
     /**
+     * Permisos del usuario
+     */
+    private Collection<? extends GrantedAuthority> authorities;
+
+    /**
      * Constructor
      */
     public CustomUserDetails() {
@@ -39,8 +43,9 @@ public class CustomUserDetails implements UserDetails {
      * Constructor
      * @param usuario Datos del usuario
      */
-    public CustomUserDetails(Usuario usuario) {
+    public CustomUserDetails(Usuario usuario, Collection<? extends GrantedAuthority> authorities) {
         this.usuario = usuario;
+        this.authorities = authorities;
     }
 
     // Métodos    
@@ -50,7 +55,7 @@ public class CustomUserDetails implements UserDetails {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();     
         authorities.add(new SimpleGrantedAuthority(usuario.getRol()));
 
-        return new CustomUserDetails();
+        return new CustomUserDetails(usuario, authorities);
     }
 
     /**
@@ -58,7 +63,7 @@ public class CustomUserDetails implements UserDetails {
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {        
-        return Collections.singleton(new SimpleGrantedAuthority(usuario.getRol()));
+        return authorities;
     }
 
     /**
