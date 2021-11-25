@@ -13,6 +13,10 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import co.edu.udec.libraryproject.exception.ConflictException;
+import co.edu.udec.libraryproject.exception.NoContentException;
+import co.edu.udec.libraryproject.exception.NotFoundException;
 import co.edu.udec.libraryproject.exception.UnauthorizedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -28,6 +32,17 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class FException extends ResponseEntityExceptionHandler {
  
     // Métodos
+
+    /**
+     * Filtro de NO CONTENT EXCEPTION
+     * @param ex Datos de la excepción
+     * @param request Datos de la petición
+     * @return 204 - NO CONTENT
+     */
+    @ExceptionHandler(NoContentException.class)
+    public final ResponseEntity<ExceptionDTO> onNoContentException(Exception ex, WebRequest request) {
+        return responseError(HttpStatus.NO_CONTENT, ex.getMessage(), request);
+    }
 
     /**
      * Filtro de BADCREDENTIALS EXCEPTION
@@ -104,6 +119,28 @@ public class FException extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ExpiredJwtException.class)
     public final ResponseEntity<ExceptionDTO> onExpiredJwtException(Exception ex, WebRequest request) {
         return responseError(HttpStatus.UNAUTHORIZED, ex.getMessage(), request);
+    }
+
+    /**
+     * Filtro de NOT FOUND EXCEPTION
+     * @param ex Datos de la excepción
+     * @param request Datos de la petición
+     * @return 404 - NOT FOUND
+     */
+    @ExceptionHandler(NotFoundException.class)
+    public final ResponseEntity<ExceptionDTO> onNotFoundException(Exception ex, WebRequest request) {
+        return responseError(HttpStatus.NOT_FOUND, ex.getMessage(), request);
+    }
+
+    /**
+     * Filtro de CONFLICT EXCEPTION
+     * @param ex Datos de la excepción
+     * @param request Datos de la petición
+     * @return 409 - CONFLICT
+     */
+    @ExceptionHandler(ConflictException.class)
+    public final ResponseEntity<ExceptionDTO> onConflictException(Exception ex, WebRequest request) {
+        return responseError(HttpStatus.CONFLICT, ex.getMessage(), request);
     }
 
     /**

@@ -71,6 +71,24 @@ public class Usuario {
      */
     public Usuario() {
 
+    }    
+
+    /**
+     * Constructor
+     * @param email E-mail del usuario
+     * @param clave Clave del usuario
+     * @param rol Rol del usuario
+     * @param nombre Nombre del usuario
+     */
+    public Usuario(
+            @NotNull(message = "El e-mail del usuario es requerido") @Email(message = "El e-mail del usuario es incorrecto") String email,
+            @NotNull(message = "La clave del usuario es requerida") String clave,
+            @NotNull(message = "El rol del usuario es requerido") String rol,
+            @NotNull(message = "El nombre del usuario es requerido") @Pattern(regexp = "[a-zA-ZñÑ ]*", message = "El nombre del usuario únicamente debe contener letras") @Size(min = 4, max = 48, message = "El nombre del usuario debe contener mínimo 4 y máximo 48 letras") String nombre) {
+        this.email = email;
+        this.clave = clave;
+        this.rol = rol;
+        this.nombre = nombre;
     }
 
     // Métodos get & set

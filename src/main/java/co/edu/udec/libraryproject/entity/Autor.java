@@ -6,8 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -20,18 +19,18 @@ import javax.validation.constraints.Pattern;
  * @version 1.0.0
  */
 @Entity
-@Table(name = "authros", schema = "user")
+@Table(name = "authors", schema = "users")
 public class Autor {
 
     // Variables
 
     /**
-     * ID del autor
+     * ORCID del autor
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")    
-    private Short id;
+    @Id    
+    @Column(name = "orcid")    
+    @Pattern(regexp = "[0-9]{8}", message = "El ORCID debe contener únicamente 8 números")
+    private String orcid;
 
     /**
      * Nombres del autor
@@ -60,6 +59,15 @@ public class Autor {
     private String email;
 
     /**
+     * Clave del autor
+     */
+    @Transient
+    @NotNull(message = "La clave del autor es requerida")
+    @Pattern(regexp = "[a-zA-Z0-9@!#$%&/()=]*", message = "La clave no cumple con los requisitos")
+    @Size(min = 8, max = 20, message = "La clave debe tener mínimo 8 y máximo 20 caracteres")
+    private String clave;
+
+    /**
      * Constructor
      */
     public Autor() {
@@ -68,17 +76,17 @@ public class Autor {
 
     // Métodos get & set
 
-    public Short getId() {
-        return id;
+    public String getOrcid() {
+        return orcid;
     }
 
-    public void setId(Short id) {
-        this.id = id;
+    public void setOrcid(String orcid) {
+        this.orcid = orcid;
     }
 
     public String getNombres() {
         return nombres;
-    }
+    }    
 
     public void setNombres(String nombres) {
         this.nombres = nombres;
@@ -98,6 +106,14 @@ public class Autor {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getClave() {
+        return clave;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
     }
 
 }

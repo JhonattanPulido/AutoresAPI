@@ -25,4 +25,11 @@ public interface IDUsuario extends JpaRepository<Usuario, Short> {
      */
     public Optional<Usuario> findByEmail(String email);
 
+    /**
+     * Verificar la existencia de un usuario con un e-mail
+     * @param email E-mail del usuario
+     * @return True: El e-mail ya está en uso | False: El e-mail no está en uso
+     */
+    public Boolean existsByEmail(String email);
+
 }
