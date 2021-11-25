@@ -3,7 +3,12 @@ package co.edu.udec.libraryproject.entity;
 
 // Librerías
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
@@ -61,11 +66,14 @@ public class Autor {
     /**
      * Clave del autor
      */
-    @Transient
-    @NotNull(message = "La clave del autor es requerida")
-    @Pattern(regexp = "[a-zA-Z0-9@!#$%&/()=]*", message = "La clave no cumple con los requisitos")
-    @Size(min = 8, max = 20, message = "La clave debe tener mínimo 8 y máximo 20 caracteres")
+    @Transient        
     private String clave;
+
+    /**
+     * Lista de libros asociados al autor
+     */
+    @OneToMany(mappedBy = "autor", cascade = { CascadeType.ALL }, orphanRemoval = false)
+    private List<Libro> listaLibros;
 
     /**
      * Constructor
@@ -114,6 +122,14 @@ public class Autor {
 
     public void setClave(String clave) {
         this.clave = clave;
+    }
+
+    public List<Libro> getListaLibros() {
+        return listaLibros;
+    }
+
+    public void setListaLibros(List<Libro> listaLibros) {
+        this.listaLibros = listaLibros;
     }
 
 }
