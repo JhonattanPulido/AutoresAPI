@@ -87,10 +87,22 @@ public class SAutor implements ISAutor {
         
     }
 
+    /**
+     * Leer datos de un autor
+     * @param orcid ORCID del autor
+     * @param all True: Retornar toda la información relacionada al autor | False: Traer únicamente la información del autor
+     * @return Datos del autor
+     * @throws NotFoundException No se encontró el autor
+     */
     @Override
-    public Autor leer(String id, Boolean all) throws NotFoundException {
-        // TODO Auto-generated method stub
-        return null;
+    public Autor leer(String orcid, Boolean all) throws NotFoundException {
+        
+        // Leer los datos del autor
+        Autor autor = datosAutor.findById(orcid).orElseThrow(() -> new NotFoundException("No se encontró un autor con el ORCID: " + orcid));
+
+        // Retornar la información del autor
+        return autor;
+
     }
 
     @Override

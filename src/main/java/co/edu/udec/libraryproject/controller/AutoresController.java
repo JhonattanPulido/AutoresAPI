@@ -1,19 +1,22 @@
 // Paquete
 package co.edu.udec.libraryproject.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 // Librerías
 import org.springframework.http.HttpStatus;
 import co.edu.udec.libraryproject.entity.Autor;
-import co.edu.udec.libraryproject.exception.ConflictException;
-
 import org.springframework.http.ResponseEntity;
 import co.edu.udec.libraryproject.service.interfaz.ISAutor;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import co.edu.udec.libraryproject.exception.ConflictException;
+import co.edu.udec.libraryproject.exception.NotFoundException;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 
 /**
@@ -55,6 +58,18 @@ public class AutoresController {
     public ResponseEntity<Object> crear(@Validated @RequestBody Autor autor) throws ConflictException {
         serviciosAutor.crear(autor);
         return new ResponseEntity<Object>(HttpStatus.CREATED);
+    }
+
+    /**
+     * Leer datos de un autor
+     * @param orcid ORCID del autor
+     * @param all True: Traer toda la información asociada al autor | False: Traer únicamente la información del autor
+     * @return 200 - OK
+     * @throws NotFoundException No se encontró el autor
+     */
+    @GetMapping(value = "/{orcid}/{all}", produces = "application/json")
+    public ResponseEntity<Autor> leer(@PathVariable String orcid, @PathVariable Boolean all) throws NotFoundException {
+        return new ResponseEntity<Autor>(serviciosAutor.leer(orcid, all), HttpStatus.OK);
     }
 
 }
