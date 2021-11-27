@@ -41,7 +41,7 @@ public class SAutor implements ISAutor {
     private IDUsuario datosUsuario;
 
     /**
-     * Password encoder
+     * Encriptador de claves
      */
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -99,6 +99,12 @@ public class SAutor implements ISAutor {
         
         // Leer los datos del autor
         Autor autor = datosAutor.findById(orcid).orElseThrow(() -> new NotFoundException("No se encontró un autor con el ORCID: " + orcid));
+
+        // Evaluar la información que se debe retornar
+        if (all == false) {
+            autor.setListaLibros(null);
+            autor.setListaEditoriales(null);
+        }
 
         // Retornar la información del autor
         return autor;

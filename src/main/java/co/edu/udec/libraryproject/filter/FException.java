@@ -9,14 +9,14 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import org.springframework.http.ResponseEntity;
 import co.edu.udec.libraryproject.dto.ExceptionDTO;
+import javax.validation.ConstraintViolationException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.bind.annotation.RestController;
+import co.edu.udec.libraryproject.exception.ConflictException;
+import co.edu.udec.libraryproject.exception.NotFoundException;
+import co.edu.udec.libraryproject.exception.NoContentException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import co.edu.udec.libraryproject.exception.ConflictException;
-import co.edu.udec.libraryproject.exception.NoContentException;
-import co.edu.udec.libraryproject.exception.NotFoundException;
 import co.edu.udec.libraryproject.exception.UnauthorizedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -42,6 +42,17 @@ public class FException extends ResponseEntityExceptionHandler {
     @ExceptionHandler(NoContentException.class)
     public final ResponseEntity<ExceptionDTO> onNoContentException(Exception ex, WebRequest request) {
         return responseError(HttpStatus.NO_CONTENT, ex.getMessage(), request);
+    }
+
+    /**
+     * Filtro de CONSTRAINT VIOLATION EXCEPTION
+     * @param ex Datos de la excepción
+     * @param request Datos de la petición
+     * @return 400 - BAD REQUEST
+     */
+    @ExceptionHandler(ConstraintViolationException.class)
+    public final ResponseEntity<ExceptionDTO> onConstaintViolationException(Exception ex, WebRequest request) {
+        return responseError(HttpStatus.BAD_REQUEST, ex.getMessage(), request);
     }
 
     /**

@@ -2,16 +2,17 @@
 package co.edu.udec.libraryproject.entity;
 
 // Librerías
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
 import java.util.List;
-
-import javax.persistence.CascadeType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinTable;
 import javax.persistence.Transient;
+import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.CascadeType;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -58,7 +59,7 @@ public class Autor {
     /**
      * E-mail del autor
      */
-    @Column(name = "email")
+    @Column(name = "email", columnDefinition = "TEXT")
     @NotNull(message = "El e-mail del autor es requerido")
     @Email(message = "El e-mail del autor es incorrecto")
     private String email;
@@ -74,6 +75,13 @@ public class Autor {
      */
     @OneToMany(mappedBy = "autor", cascade = { CascadeType.ALL }, orphanRemoval = false)
     private List<Libro> listaLibros;
+
+    /**
+     * Lista de editoriales asociadas al autor
+     */
+    @ManyToMany
+    @JoinTable(name = "authors_editorials", joinColumns = @JoinColumn(name = "author_id"), inverseJoinColumns = @JoinColumn(name = "editorial_id"))
+    private List<Editorial> listaEditoriales;
 
     /**
      * Constructor
@@ -130,6 +138,14 @@ public class Autor {
 
     public void setListaLibros(List<Libro> listaLibros) {
         this.listaLibros = listaLibros;
+    }
+
+    public List<Editorial> getListaEditoriales() {
+        return listaEditoriales;
+    }
+
+    public void setListaEditoriales(List<Editorial> listaEditoriales) {
+        this.listaEditoriales = listaEditoriales;
     }
 
 }

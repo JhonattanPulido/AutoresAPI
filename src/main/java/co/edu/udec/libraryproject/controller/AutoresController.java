@@ -3,20 +3,20 @@ package co.edu.udec.libraryproject.controller;
 
 // Librerías
 import org.springframework.http.HttpStatus;
+import javax.validation.constraints.Pattern;
 import co.edu.udec.libraryproject.entity.Autor;
 import org.springframework.http.ResponseEntity;
-import co.edu.udec.libraryproject.service.interfaz.ISAutor;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import co.edu.udec.libraryproject.service.interfaz.ISAutor;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import co.edu.udec.libraryproject.exception.ConflictException;
 import co.edu.udec.libraryproject.exception.NotFoundException;
-
 import org.springframework.security.access.prepost.PreAuthorize;
 
 /**
@@ -67,8 +67,11 @@ public class AutoresController {
      * @return 200 - OK
      * @throws NotFoundException No se encontró el autor
      */
+    @PreAuthorize("hasAuthority('BIBLIOTECARIO') or hasAuthority('AUTOR')")
     @GetMapping(value = "/{orcid}/{all}", produces = "application/json")
-    public ResponseEntity<Autor> leer(@PathVariable String orcid, @PathVariable Boolean all) throws NotFoundException {
+    public ResponseEntity<Autor> leer(
+        @PathVariable @Pattern(regexp = "[0-9]{8}", message = "El ORCID debe contener únicamente 8 números") String orcid, 
+        @PathVariable Boolean all) throws   NotFoundException {
         return new ResponseEntity<Autor>(serviciosAutor.leer(orcid, all), HttpStatus.OK);
     }
 

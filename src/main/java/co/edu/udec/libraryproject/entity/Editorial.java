@@ -2,16 +2,20 @@
 package co.edu.udec.libraryproject.entity;
 
 // Librerías
+import java.util.List;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Entidad editorial
@@ -53,17 +57,29 @@ public class Editorial {
     /**
      * E-mail de la editorial
      */
-    @Column(name = "email")
+    @Column(name = "email", columnDefinition = "TEXT")
     @NotNull(message = "El e-mail de la editorial es requerido")
     @Email(message = "El e-mail de la editorial es incorrecto")
     private String email;
+
+    /**
+     * Clave del autor
+     */
+    @Transient   
+    private String clave;
+
+    /**
+     * Lista de autores asociados a la editorial
+     */
+    @ManyToMany(mappedBy = "listaEditoriales")
+    private List<Autor> listaAutores;
 
     /**
      * Constructor
      */
     public Editorial() {
 
-    }
+    }    
 
     // Métodos get & set
 
@@ -98,5 +114,22 @@ public class Editorial {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public String getClave() {
+        return clave;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
+    }
+
+    @JsonIgnore
+    public List<Autor> getListaAutores() {
+        return listaAutores;
+    }
+
+    public void setListaAutores(List<Autor> listaAutores) {
+        this.listaAutores = listaAutores;
+    }    
 
 }
