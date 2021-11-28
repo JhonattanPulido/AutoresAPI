@@ -17,6 +17,7 @@ import co.edu.udec.libraryproject.exception.NotFoundException;
 import co.edu.udec.libraryproject.exception.NoContentException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import co.edu.udec.libraryproject.exception.BadRequestException;
 import co.edu.udec.libraryproject.exception.UnauthorizedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -42,6 +43,17 @@ public class FException extends ResponseEntityExceptionHandler {
     @ExceptionHandler(NoContentException.class)
     public final ResponseEntity<ExceptionDTO> onNoContentException(Exception ex, WebRequest request) {
         return responseError(HttpStatus.NO_CONTENT, ex.getMessage(), request);
+    }
+
+    /**
+     * Filtro de BAD REQUEST EXCEPTION
+     * @param ex Datos dela excepción
+     * @param request Datos de la petición
+     * @return 400 - BAD REQUEST
+     */
+    @ExceptionHandler(BadRequestException.class)
+    public final ResponseEntity<ExceptionDTO> onBadRequestException(Exception ex, WebRequest request) {
+        return responseError(HttpStatus.BAD_REQUEST, ex.getMessage(), request);
     }
 
     /**

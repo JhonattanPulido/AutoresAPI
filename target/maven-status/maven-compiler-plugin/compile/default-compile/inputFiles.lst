@@ -1,6 +1,7 @@
 /home/jhonattan/Documents/Code/AutoresAPI/src/main/java/co/edu/udec/libraryproject/entity/Editorial.java
 /home/jhonattan/Documents/Code/AutoresAPI/src/main/java/co/edu/udec/libraryproject/entity/Bibliotecario.java
 /home/jhonattan/Documents/Code/AutoresAPI/src/main/java/co/edu/udec/libraryproject/repository/IDAutor.java
+/home/jhonattan/Documents/Code/AutoresAPI/src/main/java/co/edu/udec/libraryproject/exception/BadRequestException.java
 /home/jhonattan/Documents/Code/AutoresAPI/src/main/java/co/edu/udec/libraryproject/dto/ExceptionDTO.java
 /home/jhonattan/Documents/Code/AutoresAPI/src/main/java/co/edu/udec/libraryproject/exception/NoContentException.java
 /home/jhonattan/Documents/Code/AutoresAPI/src/main/java/co/edu/udec/libraryproject/security/CustomUserDetails.java

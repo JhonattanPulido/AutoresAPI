@@ -1,6 +1,7 @@
 // Paquete
 package co.edu.udec.libraryproject.entity;
 
+import java.util.ArrayList;
 // Librerías
 import java.util.List;
 import javax.persistence.Id;
@@ -87,7 +88,8 @@ public class Autor {
      * Constructor
      */
     public Autor() {
-
+        listaLibros = new ArrayList<>();
+        listaEditoriales = new ArrayList<>();
     }
 
     // Métodos get & set

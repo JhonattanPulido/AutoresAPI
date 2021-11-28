@@ -20,7 +20,7 @@ import javax.validation.constraints.Pattern;
  * @version 1.0.0
  */
 @Entity
-@Table(name = "librarians", schema = "user")
+@Table(name = "librarians", schema = "users")
 public class Bibliotecario {
     
     // Variables

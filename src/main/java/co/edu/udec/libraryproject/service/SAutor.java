@@ -2,19 +2,24 @@
 package co.edu.udec.libraryproject.service;
 
 // Librerías
+import java.util.List;
+import java.util.ArrayList;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import co.edu.udec.libraryproject.entity.Autor;
 import co.edu.udec.libraryproject.entity.Libro;
 import co.edu.udec.libraryproject.entity.Usuario;
+import co.edu.udec.libraryproject.entity.Editorial;
 import co.edu.udec.libraryproject.repository.IDAutor;
 import co.edu.udec.libraryproject.repository.IDUsuario;
+import co.edu.udec.libraryproject.repository.IDEditorial;
 import co.edu.udec.libraryproject.service.interfaz.ISAutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import co.edu.udec.libraryproject.exception.ConflictException;
 import co.edu.udec.libraryproject.exception.NotFoundException;
 import co.edu.udec.libraryproject.exception.NoContentException;
 import org.springframework.transaction.annotation.Transactional;
+import co.edu.udec.libraryproject.exception.BadRequestException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
@@ -39,6 +44,12 @@ public class SAutor implements ISAutor {
      */
     @Autowired
     private IDUsuario datosUsuario;
+
+    /**
+     * Métodos de la capa de datos de editoriales
+     */
+    @Autowired
+    private IDEditorial datosEditorial;    
 
     /**
      * Encriptador de claves
@@ -126,6 +137,37 @@ public class SAutor implements ISAutor {
     @Override
     public void eliminar(String id) throws NotFoundException {
         // TODO Auto-generated method stub
+        
+    }
+
+    /**
+     * Asociar editoriales a autor
+     * @param orcid ORCID del autor
+     * @param listaNits Lista de NIT de las editoriales
+     * @throws NotFoundException No se encontró el autor
+     * @throws BadRequestException No se encontró una editorial
+     */
+    @Override
+    public void asociarEditoriales(String orcid, List<String> listaNits) throws NotFoundException,
+                                                                                BadRequestException {
+        
+        // Verificando la existencia del autor
+        Autor autor = datosAutor.findById(orcid).orElseThrow(() -> new NotFoundException("No se encontró el autor con el ORCID: " + orcid));
+        
+        // Declarando la lista de editoriales
+        List<Editorial> listaEditoriales = new ArrayList<>();
+
+        // Recorriendo la lista de nits de editoriales
+        for (String nit : listaNits) {
+            Editorial editorial = datosEditorial.findByNit(nit).orElseThrow(() -> new BadRequestException("No se encontró la editorial con el NIT: " + nit));
+            listaEditoriales.add(editorial);
+        }            
+            
+        // Asociando las editoriales a el autor
+        autor.setListaEditoriales(listaEditoriales);
+
+        // Actualizar la información del autor
+        datosAutor.save(autor);
         
     }
 

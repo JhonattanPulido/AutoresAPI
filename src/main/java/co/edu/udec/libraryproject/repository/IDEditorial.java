@@ -2,6 +2,7 @@
 package co.edu.udec.libraryproject.repository;
 
 // Librerías
+import java.util.Optional;
 import org.springframework.stereotype.Repository;
 import co.edu.udec.libraryproject.entity.Editorial;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,6 +17,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface IDEditorial extends JpaRepository<Editorial, Short> {
     
     // Métodos
+
+    /**
+     * Leer datos de editorial por NIT
+     * @param nit NIT de la editorial
+     * @return Datos de la editorial
+     */
+    public Optional<Editorial> findByNit(String nit);
 
     /**
      * Verificar la existencia de una editorial con un NIT

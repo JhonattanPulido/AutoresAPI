@@ -2,6 +2,7 @@
 package co.edu.udec.libraryproject.controller;
 
 // Librerías
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import javax.validation.constraints.Pattern;
 import co.edu.udec.libraryproject.entity.Autor;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import co.edu.udec.libraryproject.exception.ConflictException;
 import co.edu.udec.libraryproject.exception.NotFoundException;
 import org.springframework.security.access.prepost.PreAuthorize;
+import co.edu.udec.libraryproject.exception.BadRequestException;
 
 /**
  * Autores controller
@@ -73,6 +75,24 @@ public class AutoresController {
         @PathVariable @Pattern(regexp = "[0-9]{8}", message = "El ORCID debe contener únicamente 8 números") String orcid, 
         @PathVariable Boolean all) throws   NotFoundException {
         return new ResponseEntity<Autor>(serviciosAutor.leer(orcid, all), HttpStatus.OK);
+    }
+
+    /**
+     * Asociar editoriales a autor
+     * @param orcid ORCID del autor
+     * @param listaNits Lista de NIT de las editoriales
+     * @return 200 - OK
+     * @throws NotFoundException No se encontró el autor
+     * @throws BadRequestException No se encontró una editorial
+     */
+    @PreAuthorize("hasAuthority('AUTOR')")
+    @PostMapping(value = "asociar-editoriales/{orcid}", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Object> asociarEditoriales(
+        @PathVariable @Pattern(regexp = "[0-9]{8}", message = "El ORCID debe contener únicamente 8 números") String orcid,
+        @RequestBody List<String> listaNits) throws NotFoundException,
+                                                    BadRequestException {        
+        serviciosAutor.asociarEditoriales(orcid, listaNits);
+        return new ResponseEntity<Object>(HttpStatus.OK);
     }
 
 }
