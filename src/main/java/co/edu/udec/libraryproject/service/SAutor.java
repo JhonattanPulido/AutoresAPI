@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import co.edu.udec.libraryproject.entity.Autor;
 import co.edu.udec.libraryproject.entity.Libro;
 import co.edu.udec.libraryproject.entity.Usuario;
+import org.springframework.data.domain.PageRequest;
 import co.edu.udec.libraryproject.entity.Editorial;
 import co.edu.udec.libraryproject.repository.IDAutor;
 import co.edu.udec.libraryproject.repository.IDUsuario;
@@ -122,21 +123,70 @@ public class SAutor implements ISAutor {
 
     }
 
+    /**
+     * Leer datos de autores paginados
+     * @param inicio Indice de la página de inicio
+     * @param cantidad Cantidad de autores que se desean ver
+     * @return Lista de autores paginada
+     * @throws NoContentException No hay autores para mostrar
+     */
     @Override
     public Page<Autor> leer(Short inicio, Short cantidad) throws NoContentException {
-        // TODO Auto-generated method stub
-        return null;
+        
+        // Obtener autores paginados
+        Page<Autor> listaAutores = datosAutor.findAll(PageRequest.of(inicio, cantidad));        
+
+        // Modificando la información para retornar
+        for (Autor autor : listaAutores) {
+            autor.setListaLibros(null);
+            autor.setListaEditoriales(null);
+        }
+
+        // Retornando los datos de los autores
+        return listaAutores;
+
     }
 
+    /**
+     * Actualizar datos de autor
+     * @param autor Datos del autor
+     * @throws NotFoundException No se encontró el autor
+     * @throws ConflictException Ya existe un autor con un e-mail
+     */
     @Override
-    public void actualizar(Autor t) throws NotFoundException, ConflictException {
-        // TODO Auto-generated method stub
+    public void actualizar(Autor autor) throws  NotFoundException, 
+                                                ConflictException {
+        
+        // Verificando la existencia del autor
+        Autor autorAuxiliar = datosAutor.findById(autor.getOrcid()).orElseThrow(() -> new NotFoundException("No se encontró un autor con el ORCID: " + autor.getOrcid()));
+
+        // Verificando la integridad del e-mail
+        if (datosAutor.countEmailDiff(autor.getOrcid(), autor.getEmail()) > 0)
+            throw new ConflictException("Ya existe un autor con el e-mail: " + autor.getEmail());
+
+        // Estableciendo libros y editoriales al autor
+        autor.setListaLibros(autorAuxiliar.getListaLibros());
+        autor.setListaEditoriales(autorAuxiliar.getListaEditoriales());
+
+        // Actualizando los datos del autor
+        datosAutor.save(autor);
         
     }
 
+    /**
+     * Eliminar autor
+     * @param orcid ORCID del autor
+     * @throws NotFoundException No se encontró el autor
+     */
     @Override
-    public void eliminar(String id) throws NotFoundException {
-        // TODO Auto-generated method stub
+    public void eliminar(String orcid) throws   NotFoundException {
+        
+        // Verificando la existencia del autor
+        if (datosAutor.existsById(orcid) == false)
+            throw new NotFoundException("No se encontró un autor con el ORCID: " + orcid);
+
+        // Eliminando el autor de la BD
+        datosAutor.deleteById(orcid);
         
     }
 
