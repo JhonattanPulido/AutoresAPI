@@ -3,6 +3,7 @@ package co.edu.udec.libraryproject.service;
 
 // Librerías
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import co.edu.udec.libraryproject.entity.Usuario;
 import co.edu.udec.libraryproject.entity.Editorial;
@@ -90,26 +91,57 @@ public class SEditorial implements ISEditorial {
      * @throws NotFoundException No se encontró la editorial
      */
     @Override
-    public Editorial leer(Short id, Boolean all) throws NotFoundException {
-        
+    public Editorial leer(Short id, Boolean all) throws NotFoundException {        
         // Obteniendo los datos de la editorial
-        Editorial editorial = datosEditorial.findById(id).orElseThrow(() -> new NotFoundException("No se encontró la editorial con el ID: " + id));        
-
-        // Retornando los datos de la editorial
-        return editorial;
-
+        return datosEditorial.findById(id).orElseThrow(() -> new NotFoundException("No se encontró la editorial con el ID: " + id));        
     }
 
+    /**
+     * Leer editoriales paginadas
+     * @param inicio Indice de la página
+     * @param cantidad Cantidad de editoriales a mostrar
+     * @return Lista de editoriales paginada
+     * @throws NoContentException No hay editoriales para mostrar
+     */
     @Override
     public Page<Editorial> leer(Short inicio, Short cantidad) throws NoContentException {
-        // TODO Auto-generated method stub
-        return null;
+        
+        // Obteniendo la lista de editoriales paginada
+        Page<Editorial> listaEditoriales = datosEditorial.findAll(PageRequest.of(inicio, cantidad));
+
+        // Verificando si hay libros para mostrar
+        if (listaEditoriales.getNumberOfElements() == 0)
+            throw new NoContentException("No hay editoriales para mostrar");
+
+        // Retornando la lista de editoriales paginada
+        return listaEditoriales;
+
     }
 
+    /**
+     * Actualizar datos de editorial
+     * @param editorial Datos de la editorial
+     * @throws NotFoundException No se encontró la editorial
+     * @throws ConflictException Ya existe una editorial con un nit o un correo electrónico
+     */
     @Override
-    public void actualizar(Editorial t) throws NotFoundException, ConflictException {
-        // TODO Auto-generated method stub
+    public void actualizar(Editorial editorial) throws NotFoundException, ConflictException {
         
+        // Verificando la existencia de la editorial
+        if (datosEditorial.existsById(editorial.getId()) == false)
+            throw new NotFoundException("No se encontró una editorial con el ID: " + editorial.getId());
+        
+        // Verificando la integridad del NIT
+        if (datosEditorial.countNitDiff(editorial.getId(), editorial.getNit()) > 0)
+            throw new ConflictException("Ya existe una editorial con el NIT: " + editorial.getNit());
+
+        // Verificando la integridad del e-mail
+        if (datosEditorial.countEmailDiff(editorial.getId(), editorial.getEmail()) > 0)
+            throw new ConflictException("Ya existe una editorial con el e-mail: " + editorial.getEmail());
+
+        // Actualizando la información de la editorial
+        datosEditorial.save(editorial);
+
     }
 
     @Override

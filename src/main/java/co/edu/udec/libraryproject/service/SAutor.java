@@ -131,10 +131,14 @@ public class SAutor implements ISAutor {
      * @throws NoContentException No hay autores para mostrar
      */
     @Override
-    public Page<Autor> leer(Short inicio, Short cantidad) throws NoContentException {
+    public Page<Autor> leer(Short inicio, Short cantidad) throws    NoContentException {
         
         // Obtener autores paginados
         Page<Autor> listaAutores = datosAutor.findAll(PageRequest.of(inicio, cantidad));        
+
+        // Verificando si hay autores para mostrar
+        if (listaAutores.getNumberOfElements() == 0)
+            throw new NoContentException("No hay autores para mostrar");
 
         // Modificando la información para retornar
         for (Autor autor : listaAutores) {

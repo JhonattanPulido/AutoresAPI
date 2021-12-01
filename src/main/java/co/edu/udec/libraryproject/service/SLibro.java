@@ -105,7 +105,16 @@ public class SLibro implements ISLibro {
      */
     @Override
     public Page<Libro> leer(Short inicio, Short cantidad) throws    NoContentException {        
-        return datosLibro.findAll(PageRequest.of(inicio, cantidad));        
+
+        // Obteniendo los libros paginados
+        Page<Libro> listaLibros = datosLibro.findAll(PageRequest.of(inicio, cantidad));        
+
+        // Verificando si hay libros para mostrar
+        if (listaLibros.getNumberOfElements() == 0)
+            throw new NoContentException("No hay libros para mostrar");
+
+        // Retornando la lista de libros paginada
+        return listaLibros;
     }
 
     /**
