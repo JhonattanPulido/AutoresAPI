@@ -216,7 +216,11 @@ public class SAutor implements ISAutor {
             Editorial editorial = datosEditorial.findByNit(nit).orElseThrow(() -> new BadRequestException("No se encontró la editorial con el NIT: " + nit));
             listaEditoriales.add(editorial);
         }            
-            
+
+        // Añadiendo las editoriales existentes
+        for (Editorial editorial : autor.getListaEditoriales())
+            listaEditoriales.add(editorial);
+
         // Asociando las editoriales a el autor
         autor.setListaEditoriales(listaEditoriales);
 
