@@ -60,7 +60,7 @@ public class AutoresController {
      * @return 201 - CREATED
      * @throws ConflictException Ya existe un autor con un ORCID o un usuario con un e-mail
      */
-    @PreAuthorize("hasAuthority('BIBLIOTECARIO')")
+    @PreAuthorize("hasAuthority('BIBLIOTECARIO') or hasAuthority('AUTOR')")
     @PostMapping(consumes = "application/json", produces = "application/json")    
     public ResponseEntity<Object> crear(@Validated @RequestBody Autor autor) throws ConflictException {
         serviciosAutor.crear(autor);
